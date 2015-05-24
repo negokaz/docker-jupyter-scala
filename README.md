@@ -8,10 +8,10 @@ Quick start
 
     docker run -it -p {PORT}:8888 -v {WORK_DIR}:/notebooks negokaz/jupyter-scala
 
-* `PORT` - Jupyter Scala のサービスにアクセスするためのポート番号
+* `PORT` - Jupyter のサービスにアクセスするためのポート番号
 * `WORK_DIR` - 作成した notebook を保存したり読み込んだりするためのディレクトリパス
 
-ブラウザで `http://{DOCKER_HOST}:{PORT}` へアクセスすると Jupyter Scala のスタートページが表示されます。
+ブラウザで `http://{DOCKER_HOST}:{PORT}` へアクセスすると Jupyter のスタートページが表示されます。
 
 * `DOCKER_HOST` - Docker のホスト名もしくはIPアドレス
 
@@ -31,4 +31,4 @@ boot2dockerで`DOKER_HOST`を調べるには下記コマンドを実行します
 
     boot2docker ip
 
-`DOCKER_HOST`が`192.168.59.103`の場合、ブラウザで http://192.168.59.103:8000 へアクセスすると Jupyter Scala のスタートページが表示されます。
+`DOCKER_HOST`が`192.168.59.103`の場合、ブラウザで http://192.168.59.103:8000 へアクセスすると Jupyter のスタートページが表示されます。
