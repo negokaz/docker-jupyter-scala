@@ -4,7 +4,7 @@ MAINTAINER negokaz <negokaz@gmail.com>
 
 # Install necessary packages
 
-RUN apt-get update -qq
+RUN apt-get update -qq \
  && apt-get install -qq -y wget openjdk-7-jdk
 
 ENV SCALA_VERSION 2.11.6
