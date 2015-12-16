@@ -10,14 +10,14 @@ RUN apt-get update && apt-get install -y \
 
 ENV SCALA_VERSION 2.11.6
 
-RUN wget http://www.scala-lang.org/files/archive/scala-${SCALA_VERSION}.deb \
+RUN wget --no-verbose http://www.scala-lang.org/files/archive/scala-${SCALA_VERSION}.deb \
         && dpkg -i scala-*.deb \
         && rm      scala-*.deb
 
 # Setup jupyter-scala
 # For detail, see https://github.com/alexarchambault/jupyter-scala
 
-RUN wget https://oss.sonatype.org/content/repositories/snapshots/com/github/alexarchambault/jupyter/jupyter-scala-cli_2.11.6/0.2.0-SNAPSHOT/jupyter-scala_2.11.6-0.2.0-SNAPSHOT.tar.xz \
+RUN wget --no-verbose https://oss.sonatype.org/content/repositories/snapshots/com/github/alexarchambault/jupyter/jupyter-scala-cli_2.11.6/0.2.0-SNAPSHOT/jupyter-scala_2.11.6-0.2.0-SNAPSHOT.tar.xz \
         && mkdir jupyter-scala \
         && tar Jxvf jupyter-scala_*.tar.xz --strip=1 -C jupyter-scala \
         && rm       jupyter-scala_*.tar.xz \
