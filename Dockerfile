@@ -16,16 +16,15 @@ RUN wget --no-verbose http://www.scala-lang.org/files/archive/scala-${SCALA_VERS
 # Setup jupyter-scala
 # For detail, see https://github.com/alexarchambault/jupyter-scala
 
-RUN wget --no-verbose https://oss.sonatype.org/content/repositories/snapshots/com/github/alexarchambault/jupyter/jupyter-scala-cli_2.11.6/0.2.0-SNAPSHOT/jupyter-scala_2.11.6-0.2.0-SNAPSHOT.tar.xz \
- && mkdir /opt/jupyter-scala \
- && tar Jxvf jupyter-scala_*.tar.xz --strip=1 --directory /opt/jupyter-scala \
- && rm       jupyter-scala_*.tar.xz \
+RUN groupadd -r jupyter \
+ && useradd -r -g jupyter -d /home/jupyter jupyter \
  && mkdir /home/jupyter \
  && chown -R jupyter:jupyter /home/jupyter \
- && groupadd -r jupyter \
- && useradd -r -g jupyter -d /home/jupyter jupyter \
+ && wget --no-verbose https://oss.sonatype.org/content/repositories/snapshots/com/github/alexarchambault/jupyter/jupyter-scala-cli_2.11.6/0.2.0-SNAPSHOT/jupyter-scala_2.11.6-0.2.0-SNAPSHOT.tar.xz \
+ && mkdir /opt/jupyter-scala \
  && chown -R jupyter:jupyter /opt/jupyter-scala \
- && /opt/jupyter-scala/bin/jupyter-scala
+ && tar Jxvf jupyter-scala_*.tar.xz --strip=1 --directory /opt/jupyter-scala \
+ && rm       jupyter-scala_*.tar.xz
 
 # Cleanup
 
@@ -36,6 +35,9 @@ RUN apt-get remove -y --purge wget \
 # Make workspace and run ipython notebook
 
 USER    jupyter
+
+RUN /opt/jupyter-scala/bin/jupyter-scala
+
 VOLUME  ["/notebooks"]
 WORKDIR /notebooks
 
