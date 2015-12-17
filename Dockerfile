@@ -21,7 +21,7 @@ RUN wget --no-verbose https://oss.sonatype.org/content/repositories/snapshots/co
  && tar Jxvf jupyter-scala_*.tar.xz --strip=1 --directory /opt/jupyter-scala \
  && rm       jupyter-scala_*.tar.xz \
  && mkdir /home/jupyter \
- && chown -R /home/jupyter \
+ && chown -R jupyter:jupyter /home/jupyter \
  && groupadd -r jupyter \
  && useradd -r -g jupyter -d /home/jupyter jupyter \
  && chown -R jupyter:jupyter /opt/jupyter-scala \
