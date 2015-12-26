@@ -1,38 +1,16 @@
-FROM jupyter/notebook
+FROM alexarchambault/jupyter-scala-base
 
 MAINTAINER negokaz <negokaz@gmail.com>
 
-# Install necessary packages
+ENV SCALA_210_VERSION 2.10.5
+ENV SCALA_211_VERSION 2.11.6
+ENV JUPYTER_SCALA_VERSION 0.2.0-SNAPSHOT
 
-RUN apt-get update -qq \
- && apt-get install -qq -y wget openjdk-7-jdk
+RUN curl -s https://oss.sonatype.org/content/repositories/snapshots/com/github/alexarchambault/jupyter/jupyter-scala-cli_${SCALA_210_VERSION}/${JUPYTER_SCALA_VERSION}/jupyter-scala_${SCALA_210_VERSION}-${JUPYTER_SCALA_VERSION}.tar.xz \
+  | tar -Jx -C /opt/ \
+ && /opt/jupyter-scala_${SCALA_210_VERSION}-${JUPYTER_SCALA_VERSION}/bin/jupyter-scala \
+ && curl -s https://oss.sonatype.org/content/repositories/snapshots/com/github/alexarchambault/jupyter/jupyter-scala-cli_${SCALA_211_VERSION}/${JUPYTER_SCALA_VERSION}/jupyter-scala_${SCALA_211_VERSION}-${JUPYTER_SCALA_VERSION}.tar.xz \
+  | tar -Jx -C /opt/ \
+ && /opt/jupyter-scala_${SCALA_211_VERSION}-${JUPYTER_SCALA_VERSION}/bin/jupyter-scala
 
-ENV SCALA_VERSION 2.11.6
-
-RUN wget --no-verbose http://www.scala-lang.org/files/archive/scala-${SCALA_VERSION}.deb \
- && dpkg -i scala-*.deb \
- && rm      scala-*.deb
-
-# Setup jupyter-scala
-# For detail, see https://github.com/alexarchambault/jupyter-scala
-
-RUN wget --no-verbose https://oss.sonatype.org/content/repositories/snapshots/com/github/alexarchambault/jupyter/jupyter-scala-cli_2.11.6/0.2.0-SNAPSHOT/jupyter-scala_2.11.6-0.2.0-SNAPSHOT.tar.xz \
- && mkdir /opt/jupyter-scala \
- && tar Jxvf jupyter-scala_*.tar.xz --strip=1 --directory /opt/jupyter-scala \
- && rm       jupyter-scala_*.tar.xz \
- && /opt/jupyter-scala/bin/jupyter-scala
-
-# Cleanup
-
-RUN apt-get remove -y --purge wget \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
-
-# Make workspace and run ipython notebook
-
-VOLUME  ["/notebooks"]
-WORKDIR /notebooks
-
-EXPOSE  8888
-ENTRYPOINT ["ipython","notebook"]
-CMD ["--ip=0.0.0.0","--port=8888","--no-browser"]
+ENTRYPOINT ["ipython", "notebook", "--ip=0.0.0.0","--port=8888", "--no-browser"]
